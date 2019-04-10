@@ -10,7 +10,7 @@ function PushImage(imgPath){
     }
 }
 // 京东
-if(window.location.href.indexOf("https://item.jd.com")>-1){
+if(window.location.href.indexOf("//item.jd.com")>-1){
     var backgroundImageRegex=/(?<=url\(").+(?="\))/;
 
     // 获取大图
