@@ -12,7 +12,7 @@ function PushImage(imgPath) {
 // 京东
 if (window.location.href.indexOf("//item.jd.com") > -1) {
     var backgroundImageRegex = /(?<=url\(").+(?="\))/;
-
+      
     // 获取大图 
     document.querySelectorAll("#spec-list img").forEach(function (item, index) {
         var imgSrc = item.src;
