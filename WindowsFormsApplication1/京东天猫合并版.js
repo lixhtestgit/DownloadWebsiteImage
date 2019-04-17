@@ -13,7 +13,7 @@ function PushImage(imgPath) {
 if (window.location.href.indexOf("//item.jd.com") > -1) {
     var backgroundImageRegex = /(?<=url\(").+(?="\))/;
 
-    // 获取大图
+    // 获取大图 
     document.querySelectorAll("#spec-list img").forEach(function (item, index) {
         var imgSrc = item.src;
         //大图场景1转800*800：（/n1/s800x800_jfs/）
