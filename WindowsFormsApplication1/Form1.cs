@@ -238,10 +238,11 @@ namespace WindowsFormsApplication1
             updateLoadingState();
 
             string imgYC = "";
+            DateTime now = DateTime.Now;
             foreach (var img in imgArray)
             {
                 imgYC = img;
-                downLoadImage.DownLoadFile(downLoadImage, imgYC);
+                downLoadImage.DownLoadFile(downLoadImage, imgYC, now);
                 updateLoadingState();
             }
 
@@ -252,13 +253,13 @@ namespace WindowsFormsApplication1
         /// 下载网络图片到本地目录
         /// </summary>
         /// <param name="webFileUrl">网络图片地址</param>
-        private void DownLoadFile(DownloadImage downLoadImage, string webFileUrl)
+        private void DownLoadFile(DownloadImage downLoadImage, string webFileUrl, DateTime downloadDate)
         {
             bool downLoadResult = true;
             bool isBigImage = true;
 
             //A-检查网络图片地址有效性
-            if (downLoadImage.CheckImageUrl(webFileUrl) == false)
+            if (false && downLoadImage.CheckImageUrl(webFileUrl) == false)
             {
                 downLoadImage.ImageErrorCount++;
                 downLoadImage.ImageErrorUrlList.Add(webFileUrl);
@@ -278,8 +279,9 @@ namespace WindowsFormsApplication1
                 {
                     isBigImage = false;
                     webFileUrl = webFileUrl.Replace("?detail", "");
-                    fileName = "详情图_" + (downLoadImage.DetailImageDownLoadCount + 1) + "_" + webFileUrl.Split('/').Last();
-                    saveFilePath = downLoadImage.FileDetailImageFilePath + fileName;
+                    fileName = "详情图_" + downloadDate.ToString("HHmmss") + "_" + (downLoadImage.DetailImageDownLoadCount + 1);
+
+                    saveFilePath = $"{downLoadImage.FileDetailImageFilePath.TrimEnd('\\')}\\{fileName}.jpg";
                 }
 
                 #region 方法一：使用请求数据流下载文件

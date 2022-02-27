@@ -1,4 +1,5 @@
 var imgArray = [];
+var imgArray = [];
 var itemImg = "";
 var regex = /^http(s*):/;
 

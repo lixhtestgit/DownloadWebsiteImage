@@ -128,7 +128,8 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="京东天猫合并版.js" />
+    <Content Include="图片链接获取\QQ分享空间.js" />
+    <Content Include="图片链接获取\京东天猫合并版.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

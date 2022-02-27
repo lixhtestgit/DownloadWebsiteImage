@@ -127,7 +127,7 @@
             this.textBigImg.ReadOnly = true;
             this.textBigImg.Size = new System.Drawing.Size(461, 21);
             this.textBigImg.TabIndex = 5;
-            this.textBigImg.Text = "C:\\Users\\dianshang\\Desktop\\临时\\";
+            this.textBigImg.Text = "C:\\Users\\lixianghong\\Desktop\\临时";
             // 
             // textDetailImg
             // 
@@ -136,7 +136,7 @@
             this.textDetailImg.ReadOnly = true;
             this.textDetailImg.Size = new System.Drawing.Size(461, 21);
             this.textDetailImg.TabIndex = 6;
-            this.textDetailImg.Text = "C:\\Users\\dianshang\\Desktop\\临时\\";
+            this.textDetailImg.Text = "C:\\Users\\lixianghong\\Desktop\\临时";
             // 
             // label4
             // 
