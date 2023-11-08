@@ -33,27 +33,26 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.清空ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnDownload = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.textBigImg = new System.Windows.Forms.TextBox();
-            this.textDetailImg = new System.Windows.Forms.TextBox();
+            this.txtSaveImage = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.labBigImageCount = new System.Windows.Forms.Label();
-            this.labDetailImageCount = new System.Windows.Forms.Label();
+            this.labSuccessImageCount = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.labErrorImageCount = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
-            this.txtBoxImageList = new System.Windows.Forms.TextBox();
+            this.txtBoxErrorImageList = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.label7 = new System.Windows.Forms.Label();
             this.txtImageTypes = new System.Windows.Forms.TextBox();
             this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.label8 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.tbImageNameTemplate = new System.Windows.Forms.TextBox();
+            this.btnUpdateImage = new System.Windows.Forms.Button();
             this.contextMenuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -61,7 +60,7 @@
             // textImg
             // 
             this.textImg.ContextMenuStrip = this.contextMenuStrip1;
-            this.textImg.Location = new System.Drawing.Point(277, 153);
+            this.textImg.Location = new System.Drawing.Point(277, 115);
             this.textImg.Multiline = true;
             this.textImg.Name = "textImg";
             this.textImg.Size = new System.Drawing.Size(461, 150);
@@ -86,57 +85,39 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(158, 153);
+            this.label1.Location = new System.Drawing.Point(158, 115);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(65, 12);
             this.label1.TabIndex = 1;
             this.label1.Text = "图片地址：";
             // 
-            // button1
+            // btnDownload
             // 
-            this.button1.Location = new System.Drawing.Point(148, 203);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(113, 49);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "下 载";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnDownload.Location = new System.Drawing.Point(148, 141);
+            this.btnDownload.Name = "btnDownload";
+            this.btnDownload.Size = new System.Drawing.Size(113, 49);
+            this.btnDownload.TabIndex = 2;
+            this.btnDownload.Text = "下 载";
+            this.btnDownload.UseVisualStyleBackColor = true;
+            this.btnDownload.Click += new System.EventHandler(this.btnDownload_Click);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(160, 25);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(77, 12);
+            this.label2.Size = new System.Drawing.Size(89, 12);
             this.label2.TabIndex = 3;
-            this.label2.Text = "大图下载址：";
+            this.label2.Text = "图片保存地址：";
             // 
-            // label3
+            // txtSaveImage
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(160, 71);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(101, 12);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "详情图下载地址：";
-            // 
-            // textBigImg
-            // 
-            this.textBigImg.Location = new System.Drawing.Point(277, 22);
-            this.textBigImg.Name = "textBigImg";
-            this.textBigImg.ReadOnly = true;
-            this.textBigImg.Size = new System.Drawing.Size(461, 21);
-            this.textBigImg.TabIndex = 5;
-            this.textBigImg.Text = "C:\\Users\\lixianghong\\Desktop\\临时";
-            // 
-            // textDetailImg
-            // 
-            this.textDetailImg.Location = new System.Drawing.Point(277, 68);
-            this.textDetailImg.Name = "textDetailImg";
-            this.textDetailImg.ReadOnly = true;
-            this.textDetailImg.Size = new System.Drawing.Size(461, 21);
-            this.textDetailImg.TabIndex = 6;
-            this.textDetailImg.Text = "C:\\Users\\lixianghong\\Desktop\\临时";
+            this.txtSaveImage.Location = new System.Drawing.Point(277, 22);
+            this.txtSaveImage.Name = "txtSaveImage";
+            this.txtSaveImage.ReadOnly = true;
+            this.txtSaveImage.Size = new System.Drawing.Size(461, 21);
+            this.txtSaveImage.TabIndex = 5;
+            this.txtSaveImage.Text = "C:\\Users\\lixianghong\\Desktop\\临时";
             // 
             // label4
             // 
@@ -165,39 +146,21 @@
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(65, 12);
             this.label5.TabIndex = 9;
-            this.label5.Text = "大图数量：";
+            this.label5.Text = "成功数量：";
             // 
-            // label6
+            // labSuccessImageCount
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(17, 63);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(77, 12);
-            this.label6.TabIndex = 9;
-            this.label6.Text = "详情图数量：";
-            // 
-            // labBigImageCount
-            // 
-            this.labBigImageCount.AutoSize = true;
-            this.labBigImageCount.Location = new System.Drawing.Point(134, 32);
-            this.labBigImageCount.Name = "labBigImageCount";
-            this.labBigImageCount.Size = new System.Drawing.Size(11, 12);
-            this.labBigImageCount.TabIndex = 10;
-            this.labBigImageCount.Text = "0";
-            // 
-            // labDetailImageCount
-            // 
-            this.labDetailImageCount.AutoSize = true;
-            this.labDetailImageCount.Location = new System.Drawing.Point(134, 63);
-            this.labDetailImageCount.Name = "labDetailImageCount";
-            this.labDetailImageCount.Size = new System.Drawing.Size(11, 12);
-            this.labDetailImageCount.TabIndex = 10;
-            this.labDetailImageCount.Text = "0";
+            this.labSuccessImageCount.AutoSize = true;
+            this.labSuccessImageCount.Location = new System.Drawing.Point(134, 32);
+            this.labSuccessImageCount.Name = "labSuccessImageCount";
+            this.labSuccessImageCount.Size = new System.Drawing.Size(11, 12);
+            this.labSuccessImageCount.TabIndex = 10;
+            this.labSuccessImageCount.Text = "0";
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(17, 137);
+            this.label9.Location = new System.Drawing.Point(17, 84);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(89, 12);
             this.label9.TabIndex = 9;
@@ -206,7 +169,7 @@
             // labErrorImageCount
             // 
             this.labErrorImageCount.AutoSize = true;
-            this.labErrorImageCount.Location = new System.Drawing.Point(134, 137);
+            this.labErrorImageCount.Location = new System.Drawing.Point(134, 84);
             this.labErrorImageCount.Name = "labErrorImageCount";
             this.labErrorImageCount.Size = new System.Drawing.Size(11, 12);
             this.labErrorImageCount.TabIndex = 10;
@@ -215,34 +178,32 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(17, 164);
+            this.label11.Location = new System.Drawing.Point(17, 111);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(113, 12);
             this.label11.TabIndex = 9;
             this.label11.Text = "下载失败图片地址：";
             // 
-            // txtBoxImageList
+            // txtBoxErrorImageList
             // 
-            this.txtBoxImageList.Location = new System.Drawing.Point(136, 161);
-            this.txtBoxImageList.Multiline = true;
-            this.txtBoxImageList.Name = "txtBoxImageList";
-            this.txtBoxImageList.ReadOnly = true;
-            this.txtBoxImageList.Size = new System.Drawing.Size(461, 77);
-            this.txtBoxImageList.TabIndex = 11;
+            this.txtBoxErrorImageList.Location = new System.Drawing.Point(136, 108);
+            this.txtBoxErrorImageList.Multiline = true;
+            this.txtBoxErrorImageList.Name = "txtBoxErrorImageList";
+            this.txtBoxErrorImageList.ReadOnly = true;
+            this.txtBoxErrorImageList.Size = new System.Drawing.Size(461, 77);
+            this.txtBoxErrorImageList.TabIndex = 11;
             // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.label6);
-            this.groupBox1.Controls.Add(this.labBigImageCount);
-            this.groupBox1.Controls.Add(this.txtBoxImageList);
+            this.groupBox1.Controls.Add(this.labSuccessImageCount);
+            this.groupBox1.Controls.Add(this.txtBoxErrorImageList);
             this.groupBox1.Controls.Add(this.labErrorImageCount);
-            this.groupBox1.Controls.Add(this.labDetailImageCount);
             this.groupBox1.Controls.Add(this.label11);
             this.groupBox1.Controls.Add(this.label9);
-            this.groupBox1.Location = new System.Drawing.Point(148, 323);
+            this.groupBox1.Location = new System.Drawing.Point(148, 285);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(763, 288);
+            this.groupBox1.Size = new System.Drawing.Size(769, 213);
             this.groupBox1.TabIndex = 12;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "下载统计分析";
@@ -256,7 +217,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(763, 153);
+            this.label7.Location = new System.Drawing.Point(763, 115);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(215, 12);
             this.label7.TabIndex = 13;
@@ -264,7 +225,7 @@
             // 
             // txtImageTypes
             // 
-            this.txtImageTypes.Location = new System.Drawing.Point(765, 179);
+            this.txtImageTypes.Location = new System.Drawing.Point(765, 141);
             this.txtImageTypes.Name = "txtImageTypes";
             this.txtImageTypes.Size = new System.Drawing.Size(244, 21);
             this.txtImageTypes.TabIndex = 14;
@@ -284,18 +245,45 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(763, 228);
+            this.label8.Location = new System.Drawing.Point(763, 190);
             this.label8.MaximumSize = new System.Drawing.Size(260, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(257, 24);
             this.label8.TabIndex = 15;
             this.label8.Text = "提示：鼠标放在图片地址框里，点击鼠标右键，可以清空图片地址";
             // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(158, 71);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(89, 12);
+            this.label10.TabIndex = 4;
+            this.label10.Text = "图片命名规则：";
+            // 
+            // tbImageNameTemplate
+            // 
+            this.tbImageNameTemplate.Location = new System.Drawing.Point(275, 68);
+            this.tbImageNameTemplate.Name = "tbImageNameTemplate";
+            this.tbImageNameTemplate.Size = new System.Drawing.Size(461, 21);
+            this.tbImageNameTemplate.TabIndex = 6;
+            this.tbImageNameTemplate.Text = "SPU-BE-{序号}-XH";
+            // 
+            // btnUpdateImage
+            // 
+            this.btnUpdateImage.Location = new System.Drawing.Point(148, 216);
+            this.btnUpdateImage.Name = "btnUpdateImage";
+            this.btnUpdateImage.Size = new System.Drawing.Size(113, 49);
+            this.btnUpdateImage.TabIndex = 2;
+            this.btnUpdateImage.Text = "整理图片名称";
+            this.btnUpdateImage.UseVisualStyleBackColor = true;
+            this.btnUpdateImage.Click += new System.EventHandler(this.btnUpdateImage_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1031, 676);
+            this.ClientSize = new System.Drawing.Size(1043, 575);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.txtImageTypes);
             this.Controls.Add(this.label7);
@@ -303,11 +291,12 @@
             this.Controls.Add(this.linkLabel2);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.textDetailImg);
-            this.Controls.Add(this.textBigImg);
-            this.Controls.Add(this.label3);
+            this.Controls.Add(this.tbImageNameTemplate);
+            this.Controls.Add(this.txtSaveImage);
+            this.Controls.Add(this.label10);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnUpdateImage);
+            this.Controls.Add(this.btnDownload);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textImg);
             this.Name = "Form1";
@@ -324,21 +313,17 @@
 
         private System.Windows.Forms.TextBox textImg;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnDownload;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox textBigImg;
-        private System.Windows.Forms.TextBox textDetailImg;
+        private System.Windows.Forms.TextBox txtSaveImage;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label labBigImageCount;
-        private System.Windows.Forms.Label labDetailImageCount;
+        private System.Windows.Forms.Label labSuccessImageCount;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label labErrorImageCount;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.TextBox txtBoxImageList;
+        private System.Windows.Forms.TextBox txtBoxErrorImageList;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.Label label7;
@@ -347,6 +332,9 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem 清空ToolStripMenuItem;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox tbImageNameTemplate;
+        private System.Windows.Forms.Button btnUpdateImage;
     }
 }
 

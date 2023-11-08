@@ -35,6 +35,7 @@ namespace WindowsFormsApplication1
 
         public Form1()
         {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             InitializeComponent();
         }
         /// <summary>
@@ -42,7 +43,7 @@ namespace WindowsFormsApplication1
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void button1_Click(object sender, EventArgs e)
+        private void btnDownload_Click(object sender, EventArgs e)
         {
             //https://img10.360buyimg.com//img10.360buyimg.com/n5/jfs/t16648/127/676229886/381380/5cd0ff57/5a9f9803N5f6fb75e.jpg,https://img10.360buyimg.com//img10.360buyimg.com/n5/jfs/t11536/149/923156565/176376/5b1f83d3/59fb36cbN8bf5f999.jpg,https://img10.360buyimg.com//img10.360buyimg.com/n5/jfs/t4849/287/2366502398/51002/e4c78c7e/58fda42cN8257ef81.jpg,https://img10.360buyimg.com//img10.360buyimg.com/n5/jfs/t5224/163/352052465/49811/5e4b226d/58fda430N425183cb.jpg,https://img10.360buyimg.com//img10.360buyimg.com/n5/jfs/t5224/174/350178704/61947/90178883/58fda433Nf158a71b.jpg,https://img10.360buyimg.com//img10.360buyimg.com/n5/jfs/t4417/170/3446005181/67590/d683b206/58fda435Naba3ac26.jpg,https://img10.360buyimg.com//img20.360buyimg.com/vc/jfs/t1/2745/1/4354/231848/5b9b93c3Ed674c3cc/07c8b03154c71c47.jpg,https://img10.360buyimg.com//img20.360buyimg.com/vc/jfs/t10786/236/1312431261/94610/f6ab7662/59df2ce1N95f655ea.jpg,https://img10.360buyimg.com//img20.360buyimg.com/vc/jfs/t9541/280/1317436849/102051/668300b5/59df2cf9Nb08435bb.jpg,https://img10.360buyimg.com//img20.360buyimg.com/vc/jfs/t9616/319/1333136873/65831/1c2e16f3/59df2ceeNb1ddc7eb.jpg,https://img10.360buyimg.com//img20.360buyimg.com/vc/jfs/t9511/286/1314865248/57885/8c850701/59df2d06Ne4738e2b.jpg,https://img10.360buyimg.com//img20.360buyimg.com/vc/jfs/t10351/357/1323797830/81592/5106a6c4/59df2d0fN4a518ee4.jpg,https://img10.360buyimg.com//img20.360buyimg.com/vc/jfs/t10792/298/1311076768/100638/2702f731/59df2d11Nb95bb14e.jpg
 
@@ -54,23 +55,22 @@ namespace WindowsFormsApplication1
             }
             this.DownLoadImage = new DownloadImage()
             {
+                ImageNameTemplate = this.tbImageNameTemplate.Text,
                 DownLoadImageUrl = this.textImg.Text,
-                FileBigImageFilePath = this.textBigImg.Text,
-                FileDetailImageFilePath = this.textDetailImg.Text,
+                FileBigImageFilePath = this.txtSaveImage.Text,
                 RegexImageUrl = new Regex(string.Format(@"^http(s*)://.+\.({0})\?(big|detail)$", this.ImageTypes))
             };
             this.CheckDirectory(this.DownLoadImage.FileBigImageFilePath);
-            this.CheckDirectory(this.DownLoadImage.FileDetailImageFilePath);
 
             #endregion
 
             //1-开始下载图片
-            this.button1.Enabled = false;
+            this.btnDownload.Enabled = false;
             this.DownLoadImage.BeginDownLoadImage(this.DownLoadImage, this.updateLoadingStr);
 
             //2-下载结束
-            this.button1.Text = "下 载";
-            this.button1.Enabled = true;
+            this.btnDownload.Text = "下 载";
+            this.btnDownload.Enabled = true;
             MessageBox.Show("下载完成！");
         }
         /// <summary>
@@ -80,7 +80,7 @@ namespace WindowsFormsApplication1
         /// <param name="e"></param>
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            string fileBigImageFilePath = textBigImg.Text;
+            string fileBigImageFilePath = txtSaveImage.Text;
             this.CheckDirectory(fileBigImageFilePath);
 
             System.Diagnostics.Process.Start(fileBigImageFilePath);
@@ -95,7 +95,7 @@ namespace WindowsFormsApplication1
             FolderBrowserDialog dialog = new FolderBrowserDialog();
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                this.textBigImg.Text = this.textDetailImg.Text = dialog.SelectedPath + "\\";
+                this.txtSaveImage.Text = dialog.SelectedPath + "\\";
             }
         }
 
@@ -107,18 +107,16 @@ namespace WindowsFormsApplication1
         private void updateLoadingStr()
         {
             double shang = (this.DownLoadImage.BigImageDownLoadCount + this.DownLoadImage.DetailImageDownLoadCount) * 1.0 / this.DownLoadImage.ImageTotalCount;
-            this.button1.Text = string.Format(Form1.Loading, (int)(shang * 100));
+            this.btnDownload.Text = string.Format(Form1.Loading, (int)(shang * 100));
 
-            labBigImageCount.Text = this.DownLoadImage.BigImageDownLoadCount.ToString();
-            labDetailImageCount.Text = this.DownLoadImage.DetailImageDownLoadCount.ToString();
+            labSuccessImageCount.Text = this.DownLoadImage.BigImageDownLoadCount.ToString();
             labErrorImageCount.Text = this.DownLoadImage.ImageErrorCount.ToString();
-            txtBoxImageList.Text = string.Join(",", this.DownLoadImage.ImageErrorUrlList);
+            txtBoxErrorImageList.Text = string.Join(",", this.DownLoadImage.ImageErrorUrlList);
 
-            this.button1.Update();
-            this.labBigImageCount.Update();
-            this.labDetailImageCount.Update();
+            this.btnDownload.Update();
+            this.labSuccessImageCount.Update();
             this.labErrorImageCount.Update();
-            this.txtBoxImageList.Update();
+            this.txtBoxErrorImageList.Update();
         }
 
         /// <summary>
@@ -142,6 +140,22 @@ namespace WindowsFormsApplication1
         {
             this.textImg.Text = "";
         }
+
+        /// <summary>
+        /// 整理图片名称
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnUpdateImage_Click(object sender, EventArgs e)
+        {
+            List<string> fileList = System.IO.Directory.GetFiles(this.txtSaveImage.Text).ToList();
+            for (int i = 0; i < fileList.Count; i++)
+            {
+                string newFileName = $"{this.tbImageNameTemplate.Text.Replace("{序号}", (i + 1).ToString())}.{fileList[i].Split('.').LastOrDefault()}";
+                File.Move(fileList[i], this.txtSaveImage.Text + "\\" + newFileName);
+            }
+            MessageBox.Show("整理完成！");
+        }
     }
 
     /// <summary>
@@ -155,6 +169,16 @@ namespace WindowsFormsApplication1
         public int OneMaxReadByteLength = 102400;
 
         /// <summary>
+        /// 图片名称模板
+        /// </summary>
+        public string ImageNameTemplate { get; set; }
+
+        /// <summary>
+        /// 图片索引
+        /// </summary>
+        public int ImageIndex { get; set; }
+
+        /// <summary>
         /// 检查图片地址正则
         /// </summary>
         public Regex RegexImageUrl { get; set; }
@@ -166,11 +190,6 @@ namespace WindowsFormsApplication1
         /// 大图文件下载地址
         /// </summary>
         public string FileBigImageFilePath { get; set; }
-        /// <summary>
-        /// 详情图文件下载地址
-        /// </summary>
-        public string FileDetailImageFilePath { get; set; }
-
 
         /// <summary>
         /// 图片总量
@@ -231,19 +250,22 @@ namespace WindowsFormsApplication1
         public bool BeginDownLoadImage(DownloadImage downLoadImage, Action updateLoadingState)
         {
             bool downLoadResult = false;
-
+            this.DownLoadImageUrl = this.DownLoadImageUrl.Replace("\r\n", ",");
             string[] imgArray = this.DownLoadImageUrl.Split(',');
             this.ImageTotalCount = imgArray.Length;
 
             updateLoadingState();
 
             string imgYC = "";
-            DateTime now = DateTime.Now;
             foreach (var img in imgArray)
             {
-                imgYC = img;
-                downLoadImage.DownLoadFile(downLoadImage, imgYC, now);
-                updateLoadingState();
+                if (!string.IsNullOrWhiteSpace(img))
+                {
+                    imgYC = img;
+                    downLoadImage.DownLoadFile(downLoadImage, imgYC);
+                    downLoadImage.ImageIndex++;
+                    updateLoadingState();
+                }
             }
 
             return downLoadResult;
@@ -253,7 +275,7 @@ namespace WindowsFormsApplication1
         /// 下载网络图片到本地目录
         /// </summary>
         /// <param name="webFileUrl">网络图片地址</param>
-        private void DownLoadFile(DownloadImage downLoadImage, string webFileUrl, DateTime downloadDate)
+        private void DownLoadFile(DownloadImage downLoadImage, string webFileUrl)
         {
             bool downLoadResult = true;
             bool isBigImage = true;
@@ -269,19 +291,10 @@ namespace WindowsFormsApplication1
                 //B-检查大图详情图标记有效性
                 string saveFilePath = "";
                 string fileName = "";
-                if (webFileUrl.IndexOf("?big") > -1)
+                if (true)
                 {
-                    webFileUrl = webFileUrl.Replace("?big", "");
-                    fileName = "大图_" + (downLoadImage.BigImageDownLoadCount + 1) + "_" + webFileUrl.Split('/').Last();
-                    saveFilePath = downLoadImage.FileBigImageFilePath + fileName;
-                }
-                else
-                {
-                    isBigImage = false;
-                    webFileUrl = webFileUrl.Replace("?detail", "");
-                    fileName = "详情图_" + downloadDate.ToString("HHmmss") + "_" + (downLoadImage.DetailImageDownLoadCount + 1);
-
-                    saveFilePath = $"{downLoadImage.FileDetailImageFilePath.TrimEnd('\\')}\\{fileName}.jpg";
+                    fileName = downLoadImage.ImageNameTemplate.Replace("{序号}", (downLoadImage.ImageIndex + 1).ToString()) + "." + webFileUrl.Split('.').Last();
+                    saveFilePath = downLoadImage.FileBigImageFilePath + "\\" + fileName;
                 }
 
                 #region 方法一：使用请求数据流下载文件
