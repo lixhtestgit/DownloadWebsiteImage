@@ -150,10 +150,15 @@ namespace WindowsFormsApplication1
         {
             string[] awaitUpdateFiles = Directory.GetFiles(this.txtSaveImage.Text, ".", SearchOption.AllDirectories);
 
+            string updateDirectoryPath = this.txtSaveImage.Text + "\\整理\\";
+            if (!Directory.Exists(updateDirectoryPath))
+            {
+                Directory.CreateDirectory(updateDirectoryPath);
+            }
             for (int i = 0; i < awaitUpdateFiles.Length; i++)
             {
                 string newFileName = $"{this.tbImageNameTemplate.Text.Replace("{序号}", (i + 1).ToString())}.{awaitUpdateFiles[i].Split('.').LastOrDefault()}";
-                File.Move(awaitUpdateFiles[i], this.txtSaveImage.Text + "\\" + newFileName);
+                File.Move(awaitUpdateFiles[i], updateDirectoryPath + newFileName);
             }
             MessageBox.Show("整理完成！");
         }
