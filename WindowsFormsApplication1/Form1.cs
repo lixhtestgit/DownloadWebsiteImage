@@ -57,10 +57,10 @@ namespace WindowsFormsApplication1
             {
                 ImageNameTemplate = this.tbImageNameTemplate.Text,
                 DownLoadImageUrl = this.textImg.Text,
-                FileBigImageFilePath = this.txtSaveImage.Text,
+                FileImageSaveFilePath = this.txtSaveImage.Text,
                 RegexImageUrl = new Regex(string.Format(@"^http(s*)://.+\.({0})\?(big|detail)$", this.ImageTypes))
             };
-            this.CheckDirectory(this.DownLoadImage.FileBigImageFilePath);
+            this.CheckDirectory(this.DownLoadImage.FileImageSaveFilePath);
 
             #endregion
 
@@ -106,10 +106,10 @@ namespace WindowsFormsApplication1
         /// <param name="formatStr"></param>
         private void updateLoadingStr()
         {
-            double shang = (this.DownLoadImage.BigImageDownLoadCount + this.DownLoadImage.DetailImageDownLoadCount) * 1.0 / this.DownLoadImage.ImageTotalCount;
+            double shang = (this.DownLoadImage.ImageDownLoadCount + this.DownLoadImage.DetailImageDownLoadCount) * 1.0 / this.DownLoadImage.ImageTotalCount;
             this.btnDownload.Text = string.Format(Form1.Loading, (int)(shang * 100));
 
-            labSuccessImageCount.Text = this.DownLoadImage.BigImageDownLoadCount.ToString();
+            labSuccessImageCount.Text = this.DownLoadImage.ImageDownLoadCount.ToString();
             labErrorImageCount.Text = this.DownLoadImage.ImageErrorCount.ToString();
             txtBoxErrorImageList.Text = string.Join(",", this.DownLoadImage.ImageErrorUrlList);
 
@@ -148,11 +148,12 @@ namespace WindowsFormsApplication1
         /// <param name="e"></param>
         private void btnUpdateImage_Click(object sender, EventArgs e)
         {
-            List<string> fileList = System.IO.Directory.GetFiles(this.txtSaveImage.Text).ToList();
-            for (int i = 0; i < fileList.Count; i++)
+            string[] awaitUpdateFiles = Directory.GetFiles(this.txtSaveImage.Text, ".", SearchOption.AllDirectories);
+
+            for (int i = 0; i < awaitUpdateFiles.Length; i++)
             {
-                string newFileName = $"{this.tbImageNameTemplate.Text.Replace("{序号}", (i + 1).ToString())}.{fileList[i].Split('.').LastOrDefault()}";
-                File.Move(fileList[i], this.txtSaveImage.Text + "\\" + newFileName);
+                string newFileName = $"{this.tbImageNameTemplate.Text.Replace("{序号}", (i + 1).ToString())}.{awaitUpdateFiles[i].Split('.').LastOrDefault()}";
+                File.Move(awaitUpdateFiles[i], this.txtSaveImage.Text + "\\" + newFileName);
             }
             MessageBox.Show("整理完成！");
         }
@@ -187,9 +188,9 @@ namespace WindowsFormsApplication1
         /// </summary>
         public string DownLoadImageUrl { get; set; }
         /// <summary>
-        /// 大图文件下载地址
+        /// 图文件下载地址
         /// </summary>
-        public string FileBigImageFilePath { get; set; }
+        public string FileImageSaveFilePath { get; set; }
 
         /// <summary>
         /// 图片总量
@@ -200,21 +201,17 @@ namespace WindowsFormsApplication1
         /// </summary>
         public int ImageRemoveTotalCount { get; set; }
         /// <summary>
-        /// 大图下载成功数
+        /// 图下载成功数
         /// </summary>
-        public int BigImageDownLoadCount { get; set; }
+        public int ImageDownLoadCount { get; set; }
         /// <summary>
-        /// 大图下载成功地址列表
+        /// 图下载成功地址列表
         /// </summary>
-        public List<string> BigImageDownLoadUrlList = new List<string>(0);
+        public List<string> ImageDownLoadUrlList = new List<string>(0);
         /// <summary>
         /// 详情图下载成功数
         /// </summary>
         public int DetailImageDownLoadCount { get; set; }
-        /// <summary>
-        /// 详情图下载成功地址列表
-        /// </summary>
-        public List<string> DetailImageDownLoadUrlList = new List<string>(0);
         /// <summary>
         /// 图片下载失败数量
         /// </summary>
@@ -278,7 +275,6 @@ namespace WindowsFormsApplication1
         private void DownLoadFile(DownloadImage downLoadImage, string webFileUrl)
         {
             bool downLoadResult = true;
-            bool isBigImage = true;
 
             //A-检查网络图片地址有效性
             if (false && downLoadImage.CheckImageUrl(webFileUrl) == false)
@@ -294,7 +290,7 @@ namespace WindowsFormsApplication1
                 if (true)
                 {
                     fileName = downLoadImage.ImageNameTemplate.Replace("{序号}", (downLoadImage.ImageIndex + 1).ToString()) + "." + webFileUrl.Split('.').Last();
-                    saveFilePath = downLoadImage.FileBigImageFilePath + "\\" + fileName;
+                    saveFilePath = downLoadImage.FileImageSaveFilePath + "\\" + fileName;
                 }
 
                 #region 方法一：使用请求数据流下载文件
@@ -337,16 +333,8 @@ namespace WindowsFormsApplication1
                     response.Close();
                     response.Dispose();
 
-                    if (isBigImage)
-                    {
-                        downLoadImage.BigImageDownLoadCount++;
-                        downLoadImage.BigImageDownLoadUrlList.Add(webFileUrl);
-                    }
-                    else
-                    {
-                        downLoadImage.DetailImageDownLoadCount++;
-                        downLoadImage.DetailImageDownLoadUrlList.Add(webFileUrl);
-                    }
+                    downLoadImage.ImageDownLoadCount++;
+                    downLoadImage.ImageDownLoadUrlList.Add(webFileUrl);
                 }
                 #endregion
 
