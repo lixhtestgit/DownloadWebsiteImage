@@ -29,12 +29,12 @@ var callBackFunc=function(user,pageFilter,result) {
         });
         downLoadFunc(user,pageFilter,callBackFunc);
     }else{
-        console.info(JSON.stringify({name:user.name,imgs:user.ImageArray.join(",")}));
+        console.info({name:user.name,imgs:user.ImageArray.join(",")});
     }
 }
 userArray.forEach(user=>{
    var pageFilter={
-     "CreateTime":{"StartValue":"2023-11-10 00:00:00.000","EndValue":"2023-11-10 23:59:59.998","Sort":-1},
+     "CreateTime":{"StartValue":"2023-11-11 00:00:00.000","EndValue":"2023-11-11 23:59:59.998","Sort":-1},
      "Pager":{"PageNumber":0,"PageSize":10},
      "DeveloperID":{"Value":0}
    };
