@@ -52,7 +52,7 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.tbImageNameTemplate = new System.Windows.Forms.TextBox();
-            this.btnUpdateImage = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
             this.contextMenuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -93,7 +93,7 @@
             // 
             // btnDownload
             // 
-            this.btnDownload.Location = new System.Drawing.Point(148, 141);
+            this.btnDownload.Location = new System.Drawing.Point(148, 165);
             this.btnDownload.Name = "btnDownload";
             this.btnDownload.Size = new System.Drawing.Size(113, 49);
             this.btnDownload.TabIndex = 2;
@@ -267,17 +267,16 @@
             this.tbImageNameTemplate.Name = "tbImageNameTemplate";
             this.tbImageNameTemplate.Size = new System.Drawing.Size(461, 21);
             this.tbImageNameTemplate.TabIndex = 6;
-            this.tbImageNameTemplate.Text = "SPU-BE-{序号}-XH";
+            this.tbImageNameTemplate.Text = "SPU-{Query_filename}-XH";
             // 
-            // btnUpdateImage
+            // label3
             // 
-            this.btnUpdateImage.Location = new System.Drawing.Point(148, 216);
-            this.btnUpdateImage.Name = "btnUpdateImage";
-            this.btnUpdateImage.Size = new System.Drawing.Size(113, 49);
-            this.btnUpdateImage.TabIndex = 2;
-            this.btnUpdateImage.Text = "整理图片名称";
-            this.btnUpdateImage.UseVisualStyleBackColor = true;
-            this.btnUpdateImage.Click += new System.EventHandler(this.btnUpdateImage_Click);
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(763, 71);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(167, 12);
+            this.label3.TabIndex = 13;
+            this.label3.Text = "支持：{序号},{Query_参数名}";
             // 
             // Form1
             // 
@@ -286,6 +285,7 @@
             this.ClientSize = new System.Drawing.Size(1043, 575);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.txtImageTypes);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.linkLabel2);
@@ -295,7 +295,6 @@
             this.Controls.Add(this.txtSaveImage);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.btnUpdateImage);
             this.Controls.Add(this.btnDownload);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textImg);
@@ -334,7 +333,7 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox tbImageNameTemplate;
-        private System.Windows.Forms.Button btnUpdateImage;
+        private System.Windows.Forms.Label label3;
     }
 }
 

@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Security.Policy;
 using System.Text.RegularExpressions;
+using System.Web;
 using System.Windows.Forms;
 
 namespace WindowsFormsApplication1
@@ -141,27 +144,27 @@ namespace WindowsFormsApplication1
             this.textImg.Text = "";
         }
 
-        /// <summary>
-        /// 整理图片名称
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnUpdateImage_Click(object sender, EventArgs e)
-        {
-            string[] awaitUpdateFiles = Directory.GetFiles(this.txtSaveImage.Text, ".", SearchOption.AllDirectories);
+        ///// <summary>
+        ///// 整理图片名称
+        ///// </summary>
+        ///// <param name="sender"></param>
+        ///// <param name="e"></param>
+        //private void btnUpdateImage_Click(object sender, EventArgs e)
+        //{
+        //    string[] awaitUpdateFiles = Directory.GetFiles(this.txtSaveImage.Text, ".", SearchOption.AllDirectories);
 
-            string updateDirectoryPath = this.txtSaveImage.Text + "\\整理\\";
-            if (!Directory.Exists(updateDirectoryPath))
-            {
-                Directory.CreateDirectory(updateDirectoryPath);
-            }
-            for (int i = 0; i < awaitUpdateFiles.Length; i++)
-            {
-                string newFileName = $"{this.tbImageNameTemplate.Text.Replace("{序号}", (i + 1).ToString())}.{awaitUpdateFiles[i].Split('.').LastOrDefault()}";
-                File.Move(awaitUpdateFiles[i], updateDirectoryPath + newFileName);
-            }
-            MessageBox.Show("整理完成！");
-        }
+        //    string updateDirectoryPath = this.txtSaveImage.Text + "\\整理\\";
+        //    if (!Directory.Exists(updateDirectoryPath))
+        //    {
+        //        Directory.CreateDirectory(updateDirectoryPath);
+        //    }
+        //    for (int i = 0; i < awaitUpdateFiles.Length; i++)
+        //    {
+        //        string newFileName = $"{this.tbImageNameTemplate.Text.Replace("{序号}", (i + 1).ToString())}.{awaitUpdateFiles[i].Split('.').LastOrDefault()}";
+        //        File.Move(awaitUpdateFiles[i], updateDirectoryPath + newFileName);
+        //    }
+        //    MessageBox.Show("整理完成！");
+        //}
     }
 
     /// <summary>
@@ -294,7 +297,24 @@ namespace WindowsFormsApplication1
                 string fileName = "";
                 if (true)
                 {
-                    fileName = downLoadImage.ImageNameTemplate.Replace("{序号}", (downLoadImage.ImageIndex + 1).ToString()) + "." + webFileUrl.Split('.').Last();
+                    //生成文件名
+                    fileName = downLoadImage.ImageNameTemplate.Replace("{序号}", (downLoadImage.ImageIndex + 1).ToString()) + "." + webFileUrl.Split('.').Last().Split('?')[0];
+                    Regex fileNameQueryRegex = new Regex("(?<={Query_)[^}]+(?=})");
+                    MatchCollection queryMatchCollection = fileNameQueryRegex.Matches(fileName);
+                    if (queryMatchCollection.Count > 0)
+                    {
+                        NameValueCollection webFileUrlQueryColl = HttpUtility.ParseQueryString(new Uri(webFileUrl).Query);
+                        string queryName = null;
+                        foreach (Match queryMatch in queryMatchCollection)
+                        {
+                            queryName = queryMatch.Value;
+                            if (webFileUrlQueryColl.AllKeys.Contains(queryName))
+                            {
+                                fileName = fileName.Replace($"{{Query_{queryName}}}", webFileUrlQueryColl[queryName].ToString());
+                            }
+                        }
+                    }
+                    //生成保存文件路径
                     saveFilePath = downLoadImage.FileImageSaveFilePath + "\\" + fileName;
                 }
 
