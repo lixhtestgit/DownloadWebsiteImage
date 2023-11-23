@@ -318,6 +318,13 @@ namespace WindowsFormsApplication1
                     saveFilePath = downLoadImage.FileImageSaveFilePath + "\\" + fileName;
                 }
 
+                if (File.Exists(saveFilePath))
+                {
+                    downLoadImage.ImageDownLoadCount++;
+                    downLoadImage.ImageDownLoadUrlList.Add(webFileUrl);
+                    return;
+                }
+
                 #region 方法一：使用请求数据流下载文件
                 //方法一：使用请求数据流下载文件
                 WebRequest request = WebRequest.Create(webFileUrl);
