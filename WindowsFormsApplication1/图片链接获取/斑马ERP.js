@@ -23,7 +23,9 @@ var userArray = [
     { name: "xuyuanyuan", DeveloperID: 32373, isDownloaded: false },
     { name: "jingkun", DeveloperID: 32377, isDownloaded: false },
     { name: "gz", DeveloperID: 32472, isDownloaded: false },
-    { name: "GZ-wanying02", DeveloperID: 33487, isDownloaded: false }
+    { name: "GZ-wanying02", DeveloperID: 33487, isDownloaded: false },
+    { name: "HF-liyu01", DeveloperID: 34857, isDownloaded: false },
+    { name: "HF-xionghaiwei01", DeveloperID: 34858, isDownloaded: false }
 ];
 var callBackFunc = function (user, pageFilter, result) {
     if (result.Results != null && result.Results.length > 0) {
