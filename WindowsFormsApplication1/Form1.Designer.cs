@@ -118,7 +118,6 @@
             // 
             this.txtSaveImage.Location = new System.Drawing.Point(277, 22);
             this.txtSaveImage.Name = "txtSaveImage";
-            this.txtSaveImage.ReadOnly = true;
             this.txtSaveImage.Size = new System.Drawing.Size(461, 21);
             this.txtSaveImage.TabIndex = 5;
             this.txtSaveImage.Text = "C:\\Users\\lixianghong\\Desktop\\临时";
