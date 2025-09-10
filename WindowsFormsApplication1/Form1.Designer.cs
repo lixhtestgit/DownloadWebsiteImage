@@ -53,12 +53,16 @@
             this.label10 = new System.Windows.Forms.Label();
             this.tbImageNameTemplate = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.cbIsRemoveParam = new System.Windows.Forms.CheckBox();
+            this.tbDefaultExtendName = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.contextMenuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // textImg
             // 
+            this.textImg.AllowDrop = true;
             this.textImg.ContextMenuStrip = this.contextMenuStrip1;
             this.textImg.Location = new System.Drawing.Point(277, 115);
             this.textImg.Multiline = true;
@@ -85,11 +89,11 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(158, 115);
+            this.label1.Location = new System.Drawing.Point(147, 115);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(65, 12);
+            this.label1.Size = new System.Drawing.Size(119, 12);
             this.label1.TabIndex = 1;
-            this.label1.Text = "图片地址：";
+            this.label1.Text = "图片地址：分隔符：|";
             // 
             // btnDownload
             // 
@@ -104,7 +108,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(160, 25);
+            this.label2.Location = new System.Drawing.Point(147, 25);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(89, 12);
             this.label2.TabIndex = 3;
@@ -217,7 +221,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(763, 115);
+            this.label7.Location = new System.Drawing.Point(763, 127);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(215, 12);
             this.label7.TabIndex = 13;
@@ -225,7 +229,7 @@
             // 
             // txtImageTypes
             // 
-            this.txtImageTypes.Location = new System.Drawing.Point(765, 141);
+            this.txtImageTypes.Location = new System.Drawing.Point(765, 152);
             this.txtImageTypes.Name = "txtImageTypes";
             this.txtImageTypes.Size = new System.Drawing.Size(244, 21);
             this.txtImageTypes.TabIndex = 14;
@@ -245,7 +249,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(763, 190);
+            this.label8.Location = new System.Drawing.Point(763, 241);
             this.label8.MaximumSize = new System.Drawing.Size(260, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(257, 24);
@@ -255,7 +259,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(158, 71);
+            this.label10.Location = new System.Drawing.Point(147, 71);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(89, 12);
             this.label10.TabIndex = 4;
@@ -278,11 +282,41 @@
             this.label3.TabIndex = 13;
             this.label3.Text = "支持：{序号},{Query_参数名}";
             // 
+            // cbIsRemoveParam
+            // 
+            this.cbIsRemoveParam.AutoSize = true;
+            this.cbIsRemoveParam.Location = new System.Drawing.Point(765, 96);
+            this.cbIsRemoveParam.Name = "cbIsRemoveParam";
+            this.cbIsRemoveParam.Size = new System.Drawing.Size(96, 16);
+            this.cbIsRemoveParam.TabIndex = 16;
+            this.cbIsRemoveParam.Text = "移除链接参数";
+            this.cbIsRemoveParam.UseVisualStyleBackColor = true;
+            // 
+            // tbDefaultExtendName
+            // 
+            this.tbDefaultExtendName.Location = new System.Drawing.Point(882, 193);
+            this.tbDefaultExtendName.Name = "tbDefaultExtendName";
+            this.tbDefaultExtendName.Size = new System.Drawing.Size(127, 21);
+            this.tbDefaultExtendName.TabIndex = 17;
+            this.tbDefaultExtendName.Text = "jpg";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(763, 196);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(113, 12);
+            this.label6.TabIndex = 18;
+            this.label6.Text = "无扩展名默认类型：";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1043, 575);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.tbDefaultExtendName);
+            this.Controls.Add(this.cbIsRemoveParam);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.txtImageTypes);
             this.Controls.Add(this.label3);
@@ -334,6 +368,9 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox tbImageNameTemplate;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.CheckBox cbIsRemoveParam;
+        private System.Windows.Forms.TextBox tbDefaultExtendName;
+        private System.Windows.Forms.Label label6;
     }
 }
 

@@ -20,18 +20,6 @@ namespace WindowsFormsApplication1
         public const int MAX_READ_BYTE_LENGTH = 102400;
 
         public static string Loading = "下载中...{0}%";
-        private string _imageTypes { get; set; }
-        public string ImageTypes
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(this._imageTypes))
-                {
-                    this._imageTypes = this.txtImageTypes.Text;
-                }
-                return this._imageTypes;
-            }
-        }
         public DownloadImage DownLoadImage { get; set; }
 
         #endregion
@@ -51,7 +39,10 @@ namespace WindowsFormsApplication1
             //https://img10.360buyimg.com//img10.360buyimg.com/n5/jfs/t16648/127/676229886/381380/5cd0ff57/5a9f9803N5f6fb75e.jpg,https://img10.360buyimg.com//img10.360buyimg.com/n5/jfs/t11536/149/923156565/176376/5b1f83d3/59fb36cbN8bf5f999.jpg,https://img10.360buyimg.com//img10.360buyimg.com/n5/jfs/t4849/287/2366502398/51002/e4c78c7e/58fda42cN8257ef81.jpg,https://img10.360buyimg.com//img10.360buyimg.com/n5/jfs/t5224/163/352052465/49811/5e4b226d/58fda430N425183cb.jpg,https://img10.360buyimg.com//img10.360buyimg.com/n5/jfs/t5224/174/350178704/61947/90178883/58fda433Nf158a71b.jpg,https://img10.360buyimg.com//img10.360buyimg.com/n5/jfs/t4417/170/3446005181/67590/d683b206/58fda435Naba3ac26.jpg,https://img10.360buyimg.com//img20.360buyimg.com/vc/jfs/t1/2745/1/4354/231848/5b9b93c3Ed674c3cc/07c8b03154c71c47.jpg,https://img10.360buyimg.com//img20.360buyimg.com/vc/jfs/t10786/236/1312431261/94610/f6ab7662/59df2ce1N95f655ea.jpg,https://img10.360buyimg.com//img20.360buyimg.com/vc/jfs/t9541/280/1317436849/102051/668300b5/59df2cf9Nb08435bb.jpg,https://img10.360buyimg.com//img20.360buyimg.com/vc/jfs/t9616/319/1333136873/65831/1c2e16f3/59df2ceeNb1ddc7eb.jpg,https://img10.360buyimg.com//img20.360buyimg.com/vc/jfs/t9511/286/1314865248/57885/8c850701/59df2d06Ne4738e2b.jpg,https://img10.360buyimg.com//img20.360buyimg.com/vc/jfs/t10351/357/1323797830/81592/5106a6c4/59df2d0fN4a518ee4.jpg,https://img10.360buyimg.com//img20.360buyimg.com/vc/jfs/t10792/298/1311076768/100638/2702f731/59df2d11Nb95bb14e.jpg
 
             #region 检查页面数据
-            if (string.IsNullOrEmpty(this.textImg.Text) || string.IsNullOrEmpty(this.ImageTypes))
+
+            string imageTypes = this.txtImageTypes.Text;
+
+            if (string.IsNullOrEmpty(this.textImg.Text) || string.IsNullOrEmpty(imageTypes))
             {
                 MessageBox.Show("请填写图片地址！");
                 return;
@@ -61,7 +52,9 @@ namespace WindowsFormsApplication1
                 ImageNameTemplate = this.tbImageNameTemplate.Text,
                 DownLoadImageUrl = this.textImg.Text,
                 FileImageSaveFilePath = this.txtSaveImage.Text,
-                RegexImageUrl = new Regex(string.Format(@"^http(s*)://.+\.({0})\?(big|detail)$", this.ImageTypes))
+                ImageTypes = imageTypes,
+                DefaultExtendName = this.tbDefaultExtendName.Text,
+                RegexImageUrl = new Regex(string.Format(@"^http(s*)://.+\.({0})\?(big|detail)$", imageTypes))
             };
             this.CheckDirectory(this.DownLoadImage.FileImageSaveFilePath);
 
@@ -69,7 +62,10 @@ namespace WindowsFormsApplication1
 
             //1-开始下载图片
             this.btnDownload.Enabled = false;
-            this.DownLoadImage.BeginDownLoadImage(this.DownLoadImage, this.updateLoadingStr);
+
+            bool isRemoveParam = this.cbIsRemoveParam.Checked;
+
+            this.DownLoadImage.BeginDownLoadImage(this.DownLoadImage, this.updateLoadingStr, isRemoveParam);
 
             //2-下载结束
             this.btnDownload.Text = "下 载";
@@ -188,6 +184,14 @@ namespace WindowsFormsApplication1
         public int ImageIndex { get; set; }
 
         /// <summary>
+        /// 图片类型列表
+        /// </summary>
+        public string ImageTypes { get; set; }
+        /// <summary>
+        /// 图片默认扩展类型
+        /// </summary>
+        public string DefaultExtendName { get; set; }
+        /// <summary>
         /// 检查图片地址正则
         /// </summary>
         public Regex RegexImageUrl { get; set; }
@@ -252,11 +256,11 @@ namespace WindowsFormsApplication1
         /// </summary>
         /// <param name="updateLoadingState">下载过程中：更新面板状态方法</param>
         /// <returns></returns>
-        public bool BeginDownLoadImage(DownloadImage downLoadImage, Action updateLoadingState)
+        public bool BeginDownLoadImage(DownloadImage downLoadImage, Action updateLoadingState, bool isRemoveParam)
         {
             bool downLoadResult = false;
-            this.DownLoadImageUrl = this.DownLoadImageUrl.Replace("\r\n", ",");
-            string[] imgArray = this.DownLoadImageUrl.Split(',');
+            this.DownLoadImageUrl = this.DownLoadImageUrl.Replace("\r\n", "|");
+            string[] imgArray = this.DownLoadImageUrl.Split('|');
             this.ImageTotalCount = imgArray.Length;
 
             updateLoadingState();
@@ -267,6 +271,12 @@ namespace WindowsFormsApplication1
                 if (!string.IsNullOrWhiteSpace(img))
                 {
                     imgYC = img;
+
+                    if (isRemoveParam)
+                    {
+                        imgYC = imgYC.Split('?')[0];
+                    }
+
                     downLoadImage.DownLoadFile(downLoadImage, imgYC);
                     downLoadImage.ImageIndex++;
                     updateLoadingState();
@@ -298,7 +308,13 @@ namespace WindowsFormsApplication1
                 if (true)
                 {
                     //生成文件名
-                    fileName = downLoadImage.ImageNameTemplate.Replace("{序号}", (downLoadImage.ImageIndex + 1).ToString()) + "." + webFileUrl.Split('.').Last().Split('?')[0];
+                    string fileExtendName = webFileUrl.Split('/').Last().Split('.').Last().Split('?')[0];
+                    if (string.IsNullOrWhiteSpace(fileExtendName) || !downLoadImage.ImageTypes.Contains(fileExtendName))
+                    {
+                        fileExtendName = downLoadImage.DefaultExtendName;
+                    }
+
+                    fileName = downLoadImage.ImageNameTemplate.Replace("{序号}", (downLoadImage.ImageIndex + 1).ToString()) + "." + fileExtendName;
                     Regex fileNameQueryRegex = new Regex("(?<={Query_)[^}]+(?=})");
                     MatchCollection queryMatchCollection = fileNameQueryRegex.Matches(fileName);
                     if (queryMatchCollection.Count > 0)
